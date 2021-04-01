@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import React, { useState, Fragment,useEffect } from 'react'
 import axios from 'axios';
 
-export const BlogPostList= ({ history })=>{
+const BlogPostList= ({ history })=>{
   const [text,setText] = useState('')
   const ser = (e) =>{
     setText(e.target.value)

@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React from "react"
 import Swiper from "react-id-swiper"
-import SectionTitleTwo from "../../aaacmm/modules/SectionTitleTwo"
-import ProductGrid from "./ProductGrid"
+import SectionTitleTwo from "components/section-title/SectionTitleTwo"
+import ProductGrid from "__product__/modules/ProductGrid"
 
 const RelatedProductSlider = ({ spaceBottomClass, category }) => {
   const settings = {
@@ -55,5 +55,4 @@ RelatedProductSlider.propTypes = {
   category: PropTypes.array,
   spaceBottomClass: PropTypes.string
 }
-
 export default RelatedProductSlider

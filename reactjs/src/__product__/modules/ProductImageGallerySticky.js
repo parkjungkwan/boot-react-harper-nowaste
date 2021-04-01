@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import React, { useEffect, useState } from "react"
-import ProductImageGalleryStickyComp from './ProductImageGalleryStickyComp'
+import ProductImageGalleryStickyComp from '__product__/modules/ProductImageGalleryStickyComp'
 import axios from 'axios'
 
 const ProductImageGallerySticky = () => {
@@ -29,13 +29,12 @@ const ProductImageGallerySticky = () => {
     {products.map((product => {
       return(
         <ProductImageGalleryStickyComp product={product} key={product.prdNo} />
-      )
-    }))}
+      )}
+    ))}
   </>)
 }
 
 ProductImageGallerySticky.propTypes = {
   product: PropTypes.object
 }
-
 export default ProductImageGallerySticky

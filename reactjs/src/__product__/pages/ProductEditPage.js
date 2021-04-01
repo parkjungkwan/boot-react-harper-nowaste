@@ -2,10 +2,9 @@ import PropTypes from "prop-types"
 import React, { Fragment } from "react"
 import MetaTags from "react-meta-tags"
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic"
-import { connect } from "react-redux"
-import Layout from '../../aaacmm/modules/Layout'
-import Breadcrumb from '../modules/Breadcrumb'
-import ProductEditComp from '../modules/ProductEditComp'
+import LayoutOne from "layouts/LayoutOne"
+import Breadcrumb from "wrappers/breadcrumb/Breadcrumb"
+import ProductEditComp from "__product__/modules/ProductEditComp"
 
 const ProductEditPage = ({ location }) => {
   const { pathname } = location
@@ -19,15 +18,14 @@ const ProductEditPage = ({ location }) => {
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>Edit Product</BreadcrumbsItem>
       
-      <Layout headerTop="visible">
+      <LayoutOne headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         
         {/* Edit Product Component */}
         <ProductEditComp />
         
-      </Layout>
-
+      </LayoutOne>
     </Fragment>)
 }
 

@@ -5,11 +5,11 @@ import { useToasts } from "react-toast-notifications"
 import MetaTags from "react-meta-tags"
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic"
 import { connect } from "react-redux"
-import { getDiscountPrice } from "../../aaacmm/modules/helpers/product"
-import { addToWishlist, deleteFromWishlist, deleteAllFromWishlist } from "../../aaaredux/actions/wishlistActions"
-import { addToCart } from "../../aaaredux/actions/cartActions"
-import Layout from '../../aaacmm/modules/Layout'
-import Breadcrumb from "../modules/Breadcrumb"
+import { getDiscountPrice } from "helpers/product"
+import { addToWishlist, deleteFromWishlist, deleteAllFromWishlist } from "__product__/actions/wishlistActions"
+import { addToCart } from "__product__/actions/cartActions"
+import LayoutOne from "layouts/LayoutOne"
+import Breadcrumb from "wrappers/breadcrumb/Breadcrumb"
 
 const WishlistPage = ({
   location,
@@ -27,10 +27,6 @@ const WishlistPage = ({
     <Fragment>
       <MetaTags>
         <title>ZER0 SHOP | Wishlist</title>
-        <meta
-          name="description"
-          content="Wishlist page of flone react minimalist eCommerce template."
-        />
       </MetaTags>
 
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
@@ -38,7 +34,7 @@ const WishlistPage = ({
         Wishlist
       </BreadcrumbsItem>
 
-      <Layout headerTop="visible">
+      <LayoutOne headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
         <div className="cart-main-area pt-90 pb-100">
@@ -218,7 +214,7 @@ const WishlistPage = ({
             )}
           </div>
         </div>
-      </Layout>
+      </LayoutOne>
     </Fragment>
   )
 }

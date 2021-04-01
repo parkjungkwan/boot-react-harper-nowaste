@@ -6,7 +6,7 @@ import LayoutOne from "layouts/LayoutOne";
 import Breadcrumb from "wrappers/breadcrumb/Breadcrumb";
 import BlogSidebar from "wrappers/blog/BlogSidebar";
 import BlogComment from "wrappers/blog/BlogComment";
-import {BlogPostUpdate} from "modules/index"
+import {BlogPostUpdate} from "__board__/index"
 
 export const BlogUpdate = ({ location }) => {
   const { pathname } = location;

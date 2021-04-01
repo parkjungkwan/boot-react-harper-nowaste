@@ -3,9 +3,9 @@ import React, { Fragment } from "react"
 import MetaTags from "react-meta-tags"
 import { BreadcrumbsItem } from "react-breadcrumbs-dynamic"
 import { connect } from "react-redux"
-import ProductAddComp from '../modules/ProductAddComp'
-import Layout from "../../aaacmm/modules/Layout"
-import Breadcrumb from "../modules/Breadcrumb"
+import LayoutOne from "layouts/LayoutOne"
+import Breadcrumb from "wrappers/breadcrumb/Breadcrumb"
+import ProductAddComp from "__product__/modules/ProductAddComp"
 
 const ProductAddPage = ({ location }) => {
   const { pathname } = location
@@ -18,14 +18,14 @@ const ProductAddPage = ({ location }) => {
 
       <BreadcrumbsItem to={process.env.PUBLIC_URL + "/"}>Home</BreadcrumbsItem>
       <BreadcrumbsItem to={process.env.PUBLIC_URL + pathname}>Add Product</BreadcrumbsItem>
-      <Layout headerTop="visible">
+      <LayoutOne headerTop="visible">
         {/* breadcrumb */}
         <Breadcrumb />
 
         {/* Add product component */}
         <ProductAddComp />
         
-      </Layout>
+      </LayoutOne>
     </Fragment>
   )
 }

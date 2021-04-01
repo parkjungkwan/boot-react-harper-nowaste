@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import React from "react"
-import { setActiveSort } from "../../aaacmm/modules/helpers/product"
+import { setActiveSort } from "helpers/product"
 
 const ShopCategories = ({ categories, getSortParams }) => {
   return (
@@ -36,8 +36,8 @@ const ShopCategories = ({ categories, getSortParams }) => {
                     </button>
                   </div>
                 </li>
-              )
-            })}
+              )}
+            )}
           </ul>
         ) : (
           "No categories found"

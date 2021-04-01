@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react'
+import React, { Fragment } from "react"
 import MetaTags from "react-meta-tags"
-import Layout from "../modules/Layout"
-import FeatureIcon from "../modules/FetureIcon"
-import HeroSlider from "../modules/HeroSlider"
-import CategorySlider from "../modules/CategorySlider"
+import LayoutOne from "layouts/LayoutOne"
+import { FeatureIcon } from "__common__/index"
+import { HeroSlider } from "__common__/index"
+import { CategorySlider } from "__common__/index"
 
 const MainPage = () => {
   return (<>
@@ -11,7 +11,7 @@ const MainPage = () => {
       <MetaTags>
         <title>ZER0 SHOP | Home</title>
       </MetaTags>
-      <Layout
+      <LayoutOne
         headerContainerClass="container-fluid"
         headerPaddingClass="header-padding-2"
         headerTop="visible"
@@ -22,10 +22,10 @@ const MainPage = () => {
         <CategorySlider spaceTopClass="pt-100" spaceBottomClass="pb-95" />
         {/* feature icon */}
         <FeatureIcon spaceTopClass="pt-100" spaceBottomClass="pb-60" />
-      </Layout>
+
+      </LayoutOne>
     </Fragment>
     </>
   )
 }
-
 export default MainPage

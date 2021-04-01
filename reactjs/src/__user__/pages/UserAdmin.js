@@ -1,11 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import MetaTags from "react-meta-tags";
-import LayoutOne from "../../layouts/LayoutOne";
-import HeroSliderOne from "../../wrappers/hero-slider/HeroSliderOne";
-import FeatureIcon from "../../wrappers/feature-icon/FeatureIcon";
-import TabProduct from "../../wrappers/product/TabProduct";
-import BlogFeatured from "../../wrappers/blog-featured/BlogFeatured";
-import Sidebar from "../modules/Sidebar"
+import LayoutOne from "layouts/LayoutOne";
+import Sidebar from "modules/Sidebar"
 import axios from 'axios'
 
 

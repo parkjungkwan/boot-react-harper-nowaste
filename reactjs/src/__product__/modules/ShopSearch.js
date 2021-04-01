@@ -1,5 +1,4 @@
 import React from "react"
-
 const ShopSearch = () => {
   return (
     <div className="sidebar-widget">
@@ -15,5 +14,4 @@ const ShopSearch = () => {
     </div>
   )
 }
-
 export default ShopSearch
