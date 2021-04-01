@@ -3,9 +3,11 @@ package kr.scalar.api.user.controller;
 import java.util.List;
 import java.util.Optional;
 
+import io.swagger.annotations.*;
+import kr.scalar.api.user.domain.UserDto;
 import kr.scalar.api.user.domain.UserVo;
-import kr.scalar.api.user.repository.UserRepository;
 import kr.scalar.api.user.service.UserServiceImpl;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -24,33 +26,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/usr")
+@Api(tags="usr")
 public class UserController{
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	private final UserRepository userRepository;
 	private final UserServiceImpl userService;
-	
-//	@PostMapping("/user/sendSignUpEmail")
-//	public String sendSignUpEmail(@ModelAttribute @Valid Account account, BindingResult errors, Model model) throws DuplicateEmailException, SendEmailException{
-//        if (errors.hasErrors()) {
-//            Map<String, String> validatorResult = accountSecurityService.validateHandling(errors);
-//            for (String key : validatorResult.keySet()) {
-//                model.addAttribute(key, validatorResult.get(key));
-//            }
-//            return "/user/register";
-//        }
-	
-	
-	@PostMapping("/save")
-	public ResponseEntity<Long> save(@RequestBody UserVo userVo) {
-		logger.info("User Register: " + userVo.toString());
-		return ResponseEntity.ok(userService.save(userVo));
+	private final ModelMapper modelMapper;
+
+	@PostMapping("/signin")
+	@ApiOperation(value="${UserController.signin}")
+	@ApiResponses(value = { //
+			@ApiResponse(code = 400, message = "Something went wrong"), //
+			@ApiResponse(code = 422, message = "Invalid username/password supplied") })
+	public ResponseEntity<String> signin(@RequestBody UserVo user) {
+		logger.info("User Login Info: " + user.toString());
+		return ResponseEntity.ok(userService.signin(user.getUsername(), user.getPassword()));
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<Long> login(@RequestBody UserVo userVo) {
-		logger.info("Login user" + userVo.toString());
-		return ResponseEntity.ok(userService.login(userVo));
+	@PostMapping("/signup")
+	@ApiOperation(value = "${UserController.signup}")
+	@ApiResponses(value = { //
+			@ApiResponse(code = 400, message = "Something went wrong"), //
+			@ApiResponse(code = 403, message = "Access denied"), //
+			@ApiResponse(code = 422, message = "Username is already in use") })
+	public ResponseEntity<String> signup(@ApiParam("Signup User") @RequestBody UserDto user) {
+		logger.info("User Join Info:" + user.toString());
+		return ResponseEntity.ok(userService.signup(modelMapper.map(user, UserVo.class)));
 	}
 
 	@GetMapping("/find/{name}")
@@ -59,12 +60,7 @@ public class UserController{
 		return ResponseEntity.ok(userService.findUsersByName(userVo.getUsrName()));
 	}
 
-//	// 2.Read(3) - 비밀번호 찾기(로그인 시)
-//	@GetMapping("/find/{password}")
-//	public ResponseEntity<Optional<User>> findPassword(@RequestBody User user) {
-//		logger.info("Find password:" + user.toString());
-//		return ResponseEntity.ok(userService.findPassword(user.getUsrPwd()));
-//	}
+
 
 	@GetMapping("/all")
 	public ResponseEntity<List<UserVo>> findAll() {

@@ -1,28 +1,41 @@
 package kr.scalar.api.user.service;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import kr.scalar.api.common.service.AbstractService;
+import kr.scalar.api.security.domain.SecurityProvider;
+import kr.scalar.api.security.exception.SecurityRuntimeException;
+import kr.scalar.api.user.domain.Role;
+import kr.scalar.api.user.domain.UserDto;
+import kr.scalar.api.user.domain.UserVo;
+import kr.scalar.api.user.repository.UserRepository;
+import lombok.Getter;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
-import kr.scalar.api.common.service.AbstractService;
-import kr.scalar.api.user.domain.UserVo;
-import kr.scalar.api.user.domain.UserDto;
-import kr.scalar.api.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import lombok.AllArgsConstructor;
-
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Service
-@AllArgsConstructor
+@Getter
 public class UserServiceImpl extends AbstractService<UserVo> implements UserService {
 	private final UserRepository userRepository;
-
-	
-	
+	private final PasswordEncoder passwordEncoder;
+	private final SecurityProvider provider;
+	private final AuthenticationManager manager;
 
 	@Override
 	public long save(UserVo userVo) {
@@ -45,7 +58,6 @@ public class UserServiceImpl extends AbstractService<UserVo> implements UserServ
 		return false;
 	}
 
-	public long login(UserVo userVo) { return 3; }
 
 	@Override
 	public List<UserVo> findUsersByName(String name) {
@@ -66,20 +78,13 @@ public class UserServiceImpl extends AbstractService<UserVo> implements UserServ
 
 	@Override
 	public Optional<UserVo> updateProfile(UserVo userVo) {
-		return userRepository.updateProfile(userVo.getUsrEmail(), userVo.getUsrPwd());
+		return userRepository.updateProfile(userVo.getUsrEmail(), userVo.getPassword());
 	}
 
 	@Override
 	public long delete(UserVo userVo) {
 		userRepository.delete(userVo);
 		return getOne(userVo.getUsrNo()) != null ? 1 : 0;
-	}
-	
-
-	
-	public Map<?, ?> userDetail(UserDto usrDto) {
-		HashMap<String, String> map = new HashMap<>();
-		return map;
 	}
 
 	
@@ -115,5 +120,55 @@ public class UserServiceImpl extends AbstractService<UserVo> implements UserServ
 		return false;
 	}
 
+		// security default method
+
+
+
+
+	@Override
+	public String signin(String username, String password) {
+		try {
+			//	manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			System.out.println("ID:  "+username);
+			String tok = provider.createToken(username, userRepository.findByUsername(username).getRoles());
+			System.out.println("token :: "+tok);
+			return tok;
+		} catch (AuthenticationException e) {
+			throw new SecurityRuntimeException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+	@Override
+	public String signup(UserVo user) {
+		if (!userRepository.existsByUsername(user.getUsername())) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			List<Role> list = new ArrayList<>();
+			list.add(Role.USER);
+			user.setRoles(list);
+			userRepository.save(user);
+			return provider.createToken(user.getUsername(), user.getRoles());
+		} else {
+			throw new SecurityRuntimeException("Username is already in use", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
+	@Override
+	public void delete(String username) {
+		userRepository.deleteByUsername(username);
+	}
+	@Override
+	public UserVo search(String username) {
+		UserVo user = userRepository.findByUsername(username);
+		if (user == null) {
+			throw new SecurityRuntimeException("The user doesn't exist", HttpStatus.NOT_FOUND);
+		}
+		return user;
+	}
+	@Override
+	public UserVo whoami(HttpServletRequest req) {
+		return userRepository.findByUsername(provider.getUsername(provider.resolveToken(req)));
+	}
+	@Override
+	public String refresh(String username) {
+		return provider.createToken(username, userRepository.findByUsername(username).getRoles());
+	}
 
 }

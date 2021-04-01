@@ -19,7 +19,7 @@ import kr.scalar.api.board.domain.Board;
 import kr.scalar.api.board.domain.BoardDto;
 import kr.scalar.api.board.repository.BoardRepository;
 import kr.scalar.api.common.service.AbstractService;
-import org.modelmapper.ModelMapper;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 

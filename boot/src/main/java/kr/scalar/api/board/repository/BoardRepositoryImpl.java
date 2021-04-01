@@ -33,13 +33,12 @@ public class BoardRepositoryImpl extends QuerydslRepositorySupport implements IB
 		
 	}
 
+
 	@Override
 	public Board findByTitle(String brdTitle) {
-//		return em.createQuery("select b2 from Board b2 where b2.brd_title like :brdTitle")
-//				.setParameter("brdTitle", brdTitle)
-//				.getResultList();
-		return qf.selectFrom(board).where(board.brdTitle.eq(brdTitle)).fetchOne();
+		return null;
 	}
+
 	@Transactional
 	@Override
 	public Board findByBrd(Board brd) {

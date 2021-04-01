@@ -13,7 +13,6 @@ import kr.scalar.api.board.domain.BoardDto;
 import kr.scalar.api.board.repository.BoardRepository;
 import kr.scalar.api.board.service.BoardServiceImpl;
 import kr.scalar.api.common.controller.AbstractController;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardController extends AbstractController<Board> {
 	 private final BoardServiceImpl service;
 	 private final BoardRepository rep;
-	 private final ModelMapper modelMapper;
+
 	@PostMapping("/save")
 	public ResponseEntity<Long> save(@RequestBody Board t) {
 		return ResponseEntity.ok(service.save(t));
